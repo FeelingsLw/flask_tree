@@ -20,3 +20,6 @@ python manager.py db migrate
 # 映射 表结构 到 数据库中
 python manager.py db upgrade
 '''
+
+if __name__ == '__main__':
+    manager.run()

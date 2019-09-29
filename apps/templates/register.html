@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block  container %}
+    <div class="container">
+        <form class="form-signin" role="form" action="{{ url_for('stu.register') }}" method="post">
+            <h3 class="form-signin-heading">欢迎登录</h3>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </div>
+                    <input type="text" class="form-control" name="uname" id="username" placeholder="Username"
+                           autocomplete="off"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class=" glyphicon glyphicon-gift "></i>
+                    </div>
+                    <input type="text" class="form-control" name="nick_name" id="nick_name" placeholder="nick_name"
+                           autocomplete="off"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class=" glyphicon glyphicon-lock "></i>
+                    </div>
+                    <input type="password" class="form-control" name="passwd" id="password" placeholder="Password"
+                           autocomplete="off"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class=" glyphicon glyphicon-lock "></i>
+                    </div>
+                    <input type="password" class="form-control" name="real_passwd" id="real_passwd"
+                           placeholder="RealPassword" autocomplete="off"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class=" glyphicon glyphicon-phone "></i>
+                    </div>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone"
+                           autocomplete="off"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class=" glyphicon glyphicon-tower "></i>
+                    </div>
+                    <select class="form-control input-md" name="sex">
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    </select>
+                </div>
+            </div>
+
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> &nbsp Remember me
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登 录</button>
+        </form>
+
+    </div>
+{% endblock %}
