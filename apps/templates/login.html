@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}
+    登录
+{% endblock %}
 {% block  container %}
     <div class="container">
-        <form class="form-signin" role="form" action="{{ url_for('stu.login') }}" method="post">
+        <form class="form-signin" role="form" action="{{ url_for('user.login') }}" method="post">
             <h3 class="form-signin-heading">欢迎登录</h3>
             <div class="form-group">
                 <div class="input-group">
@@ -39,5 +42,13 @@
         </form>
 
     </div>
+        <style>
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #303641;
+        color: #C1C3C6
+      }
+    </style>
 
 {% endblock %}

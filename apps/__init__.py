@@ -7,6 +7,6 @@ app.config.from_object(config)
 
 
 
-from apps.stu import stu
+from apps.user import user
 
-app.register_blueprint(stu)
+app.register_blueprint(user)

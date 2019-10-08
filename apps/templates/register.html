@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+{% block title %}
+    注册
+{% endblock %}
 {% block  container %}
     <div class="container">
-        <form class="form-signin" role="form" action="{{ url_for('stu.register') }}" method="post">
-            <h3 class="form-signin-heading">欢迎登录</h3>
+        <form class="form-signin" role="form" action="{{ url_for('user.register') }}" method="post">
+            <h3 class="form-signin-heading">欢迎注册</h3>
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
@@ -59,12 +62,31 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class=" glyphicon glyphicon-tower "></i>
+                    </div>
+                    <select class="form-control input-md" name="cid">
+                        {% for c in clazz %}
 
-            <label class="checkbox">
-                <input type="checkbox" value="remember-me"> &nbsp Remember me
-            </label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">登 录</button>
+                            <option value="{{ c.id }}">{{ c.name }}</option>
+
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">注 册</button>
         </form>
 
     </div>
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #303641;
+            color: #C1C3C6
+        }
+    </style>
 {% endblock %}

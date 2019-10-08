@@ -13,14 +13,15 @@ class User(db.Model):
     _passwd = db.Column(db.String(100))
     sex = db.Column(db.String(1))
     phone = db.Column(db.String(15))
+    cid = db.Column(db.INTEGER)
 
-    def __init__(self, name, password, nick_name, sex=None, phone=None):
+    def __init__(self, name, password, nick_name, sex=None, phone=None,cid=None):
         self.uname = name
         self.passwd = password
         self.sex = sex
         self.phone = phone
         self.nick_name = nick_name
-
+        self.cid = cid
     @property
     def passwd(self):
         return self._passwd
@@ -33,3 +34,10 @@ class User(db.Model):
     # 定义一个验证密码的方法
     def check_password(self, rawpwd):
         return check_password_hash(self.passwd, rawpwd)
+
+
+class Clazz(db.Model):
+    __tablename__ = 't_class'
+    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(32))
+    count = db.Column(db.INTEGER)
