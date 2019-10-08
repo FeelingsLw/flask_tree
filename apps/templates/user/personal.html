@@ -39,10 +39,10 @@
                         <label for="exampleInputFile">班级</label>
                         <select class="form-control input-md" name="cid">
                             {% for c in clazz %}
-                                {% if session.cid == c.id %}
+                                {% if user.clazzs[0].id == c.id %}
                                     <option value="{{ c.id }}" selected>{{ c.name }}</option>
                                 {% endif %}
-                                {% if session.cid != c.id %}
+                                {% if user.clazzs[0].id != c.id %}
                                     <option value="{{ c.id }}">{{ c.name }}</option>
                                 {% endif %}
                             {% endfor %}

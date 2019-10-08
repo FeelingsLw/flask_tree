@@ -3,7 +3,6 @@ from flask import render_template, request, redirect, url_for, session
 from apps.model import User, db, Clazz
 from flask.views import MethodView
 
-
 @user.route('/index/')
 def index():
     return render_template('home.html')
@@ -25,7 +24,6 @@ def login():
                 session['uname'] = user.uname
                 session['nick'] = user.nick_name
                 session['sex'] = user.sex
-                session['cid'] = user.cid
                 return redirect(url_for('user.index'))
             else:
                 return render_template('login.html', msg='密码错误')
