@@ -1,9 +1,14 @@
+import functools
+
 from apps.user import user
 from flask import render_template, request, redirect, url_for, session
 from apps.model import User, db, Clazz
 from flask.views import MethodView
+from apps.decorators import login_required
+
 
 @user.route('/index/')
+@login_required
 def index():
     return render_template('home.html')
 
@@ -38,6 +43,8 @@ def logout():
 
 
 class RegisterView(MethodView):
+    decorators = [login_required, ]
+
     def get(self):
         clazz = Clazz.query.all()
         return render_template('register.html', clazz=clazz)
@@ -61,6 +68,7 @@ class RegisterView(MethodView):
 
 
 class PersonalView(MethodView):
+    decorators = [login_required]
     def get(self):
         clazz = Clazz.query.all()
         user = User.query.filter_by(id=session['uid']).first()
@@ -80,7 +88,7 @@ class PersonalView(MethodView):
             user.phone = phone
             user.cid = cid
             db.session.commit()
-        return  redirect(url_for('user.personal'))
+        return redirect(url_for('user.personal'))
 
 
 # 通过add_url_rule添加类视图和url的映射，并且在as_view方法中指定该url的名称，方便url_for函数调用

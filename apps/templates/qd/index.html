@@ -13,14 +13,14 @@
         </button>
         <table class="table table-bordered">
             <tr>
-                <td class="col-sm-1">编号</td>
+                <td >编号</td>
                 <td>班级</td>
-                <td class="col-sm-1">姓名</td>
+                <td >姓名</td>
                 <td>阶段</td>
                 <td>进度</td>
-                <td class="col-sm-1">代码数</td>
-                <td class="col-sm-1">BUG数</td>
-                <td class="col-sm-1">时间</td>
+                <td >代码数</td>
+                <td >BUG数</td>
+                <td >时间</td>
                 <td>备注</td>
                 <td>操作</td>
             </tr>
@@ -31,24 +31,28 @@
                     <td>{{ user.nick_name }}</td>
                     <td>{{ t_qd.stage }}</td>
                     <td>{{ t_qd.progress }}</td>
-                    <td>{{ qd.code_num }}</td>
-                    <td>{{ qd.bug_num }}</td>
-                    <td>{{ qd.create_time }}</td>
-                    <td>{{ qd.remarks }}</td>
+                    <td>{{ t_qd.code_num }}</td>
+                    <td>{{ t_qd.bug_num }}</td>
+                    <td>{{ t_qd.create_time }}</td>
+                    <td>{{ t_qd.remarks }}</td>
+                    <td><span class="label label-primary">已签到</span></td>
                 </tr>
             {% else %}
-                <tr>
-                    <td>1</td>
-                    <td><input class="form-control" type="text" value="{{ user.clazzs[0].name }}" readonly></td>
-                    <td><input class="form-control" type="text" value="{{ user.nick_name }}" readonly></td>
-                    <td><input class="form-control" type="text"></td>
-                    <td><input class="form-control" type="text"></td>
-                    <td><input class="form-control" type="number"></td>
-                    <td><input class="form-control" type="number"></td>
-                    <td><input class="form-control" type="date" value="{{ today }}" readonly></td>
-                    <td><input class="form-control" type="text"></td>
-                    <td><input type="submit" value="提交" class="btn btn-primary btn-sm"></td>
-                </tr>
+                <form action="/qd/" method="post" >
+{#                {{ form.csrf_token }}#}
+                    <tr>
+                        <td class="col-sm-1">1        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /></td>
+                        <td ><input class="form-control" type="text" value="{{ user.clazzs[0].name }}" readonly></td>
+                        <td class="col-sm-1"><input class="form-control" type="text" value="{{ user.nick_name }}" readonly></td>
+                        <td><input name="stage" class="form-control" type="text"></td>
+                        <td><input name="progress" class="form-control" type="text"></td>
+                        <td class="col-sm-1"><input name="code_num" class="form-control stepper-input" type="number"></td>
+                        <td class="col-sm-1"><input name="bug_num" class="form-control stepper-input" type="number"></td>
+                        <td><input name="create_time" class="form-control" type="date" value="{{ today }}" readonly></td>
+                        <td><input name="remarks" class="form-control" type="text"></td>
+                        <td class="col-sm-1"><input type="submit" value="签到" class="btn btn-primary btn-sm"></td>
+                    </tr>
+                </form>
             {% endif %}
 
         </table>

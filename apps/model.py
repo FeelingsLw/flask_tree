@@ -3,12 +3,13 @@ from apps import app
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy(app)
-user_clazz=db.Table(
+user_clazz = db.Table(
     't_user_class',
     db.Column('id', db.INTEGER, primary_key=True, autoincrement=True),
-    db.Column('uid',db.INTEGER,db.ForeignKey('t_user.id')),
-    db.Column('cid',db.INTEGER,db.ForeignKey('t_class.id'))
+    db.Column('uid', db.INTEGER, db.ForeignKey('t_user.id')),
+    db.Column('cid', db.INTEGER, db.ForeignKey('t_class.id'))
 )
+
 
 class User(db.Model):
     __tablename__ = 't_user'
@@ -18,7 +19,7 @@ class User(db.Model):
     _passwd = db.Column(db.String(100))
     sex = db.Column(db.String(1))
     phone = db.Column(db.String(15))
-    clazzs = db.relationship('Clazz',secondary=user_clazz)
+    clazzs = db.relationship('Clazz', secondary=user_clazz)
 
     def __init__(self, name, password, nick_name, sex=None, phone=None, cid=None):
         self.uname = name
@@ -49,17 +50,21 @@ class Clazz(db.Model):
     count = db.Column(db.INTEGER)
 
 
-
-
 class Qd(db.Model):
     __tablename__ = 't_qd'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     uid = db.Column(db.INTEGER)
     stage = db.Column(db.String(32))  # 阶段
     progress = db.Column(db.String(32))  # 进度
-    code_num = db.Column(db.INTEGER) # 代码数
+    code_num = db.Column(db.INTEGER)  # 代码数
     bug_num = db.Column(db.INTEGER)  # bug数
     create_time = db.Column(db.String(32))
     remarks = db.Column(db.String(300))
+
     def __str__(self):
-        return "id:{} uid:{} stage:{} progress:{} bug_num:{} create_time:{} remarks:{}".format(self.id,self.uid,self.stage,self.progress,self.bug_num,self.create_time,self.remarks)
+        return "id:{} uid:{} stage:{} progress:{} bug_num:{} create_time:{} remarks:{}".format(self.id, self.uid,
+                                                                                               self.stage,
+                                                                                               self.progress,
+                                                                                               self.bug_num,
+                                                                                               self.create_time,
+                                                                                               self.remarks)
