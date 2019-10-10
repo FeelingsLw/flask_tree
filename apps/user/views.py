@@ -43,7 +43,6 @@ def logout():
 
 
 class RegisterView(MethodView):
-    decorators = [login_required, ]
 
     def get(self):
         clazz = Clazz.query.all()
@@ -62,6 +61,8 @@ class RegisterView(MethodView):
             return render_template('register.html', msg='用户名已存在')
         else:
             user = User(uname, passwd, nick_name, sex, phone, cid)
+            clazz = Clazz.query.filter_by(id=cid).first()
+            user.clazzs.append(clazz)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('user.login'))

@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy(app)
 user_clazz = db.Table(
     't_user_class',
+    db.Model.metadata,
     db.Column('id', db.INTEGER, primary_key=True, autoincrement=True),
     db.Column('uid', db.INTEGER, db.ForeignKey('t_user.id')),
     db.Column('cid', db.INTEGER, db.ForeignKey('t_class.id'))
@@ -19,7 +20,7 @@ class User(db.Model):
     _passwd = db.Column(db.String(100))
     sex = db.Column(db.String(1))
     phone = db.Column(db.String(15))
-    clazzs = db.relationship('Clazz', secondary=user_clazz)
+    clazzs = db.relationship('Clazz', backref='users',secondary=user_clazz)
 
     def __init__(self, name, password, nick_name, sex=None, phone=None, cid=None):
         self.uname = name
