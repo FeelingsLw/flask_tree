@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,11 +13,15 @@
       <script src="{{ url_for('static',filename='js/html5shiv.js') }}"></script>
       <script src="{{ url_for('static',filename='js/respond.min.js') }}"></script>
     <![endif]-->
-    <script type="text/javascript" src="{{ url_for('static',filename='dist/js/site.min.js')}}"></script>
-  </head>
-
-  <body>
-    {% block container %}
+    <script type="text/javascript" src="{{ url_for('static',filename='dist/js/site.min.js') }}"></script>
+    {% block head %}
     {% endblock %}
-  </body>
+</head>
+
+<body>
+{% block container %}
+{% endblock %}
+</body>
+{% block script %}
+{% endblock %}
 </html>

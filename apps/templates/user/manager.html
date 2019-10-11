@@ -1,0 +1,35 @@
+{% extends 'index_base.html' %}
+{% block title %}
+    用户管理
+{% endblock %}
+{% block panel_title %}
+    用户管理
+{% endblock %}
+{% block info %}
+    <div class="content-row">
+        <button type="button" class="btn btn-info btn-block" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Tooltip on top">今日签到
+        </button>
+        <table class="table table-bordered">
+            <tr>
+                <td >编号</td>
+                <td>班级</td>
+                <td >姓名</td>
+                <td>性别</td>
+                <td>角色</td>
+                <td>操作</td>
+            </tr>
+            {% for u in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ u.clazz.name }}</td>
+                    <td>{{ u.nick_name }}</td>
+                    <td>{{ u.sex }}</td>
+                    <td>{{ u.rid }}</td>
+                    <td><span class="label label-primary">密码重置</span><span class="label label-primary">设为管理</span><span class="label label-primary">设为用户</span></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

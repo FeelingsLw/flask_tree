@@ -1,0 +1,130 @@
+{% extends 'index_base.html' %}
+{% block title %}
+    个人签到
+{% endblock %}
+
+{% block head %}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+{% block panel_title %}
+    签到
+{% endblock %}
+{% block info %}
+
+    <div class="content-row">
+        <form>
+            <div class="form-group col-md-3">
+                <input id="cname" type="text" class="form-control" placeholder="班级">
+            </div>
+            <div class="form-group col-md-3">
+                <input id="uname" type="text" class="form-control" placeholder="姓名">
+            </div>
+            <div class="form-group col-md-3">
+                <input id="create_time" type="date" class="form-control" placeholder="日期">
+            </div>
+            <div class="form-group col-md-3">
+                <input type="button" class="btn btn-primary" value="查 询" onclick="do_search()">
+                <input id="reset" type="button" class="btn btn-info" value="重 置">
+            </div>
+        </form>
+    </div>
+
+    <div class="content-row">
+        <button type="button" class="btn btn-info btn-block" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Tooltip on top">签到记录
+        </button>
+        <table id="info" class="table table-bordered">
+            <tr>
+                <td>编号</td>
+                <td>班级</td>
+                <td>姓名</td>
+                <td>阶段</td>
+                <td>进度</td>
+                <td>代码数</td>
+                <td>BUG数</td>
+                <td>时间</td>
+                <td>备注</td>
+            </tr>
+            {#            {% for qd in qds %}#}
+            {#                <tr>#}
+            {#                    <td>{{ loop.index }}</td>#}
+            {#                    <td>{{ qd.user.clazzs[0].name }}</td>#}
+            {#                    <td>{{ qd.user.nick_name }}</td>#}
+            {#                    <td>{{ qd.stage }}</td>#}
+            {#                    <td>{{ qd.progress }}</td>#}
+            {#                    <td>{{ qd.code_num }}</td>#}
+            {#                    <td>{{ qd.bug_num }}</td>#}
+            {#                    <td>{{ qd.create_time }}</td>#}
+            {#                    <td>{{ qd.remarks }}</td>#}
+            {#                </tr>#}
+            {#            {% endfor %}#}
+
+        </table>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+
+        $(function () {
+            init_data()
+            $('#reset').click(reset)
+        })
+
+        function init_data() {
+            var csrftoken = $("meta[name=csrf-token]").attr("content");
+            $.ajax({
+                url: '/search_qd/',
+                method: 'POST',
+                headers: {"X-CSRFToken": csrftoken},
+                success: function (e) {
+                    var str = ''
+                    for (var i = 0; i < e['data'].length; i++) {
+
+                        var qd = e['data'][i]
+                        str += '<tr><td>' + i + '</td><td>' + qd['cname'] + '</td><td>' + qd['uname'] + '</td><td>' + qd['stage'] + '</td><td>' + qd['progress'] + '</td><td>' + qd['code_num'] + '</td><td>' + qd['bug_num'] + '</td><td>' + qd['create_time'] + '</td><td>' + qd['remarks'] + '</td></tr>'
+
+                    }
+
+                    $("#info").append(str)
+                }
+            })
+        }
+
+        function do_search() {
+            var csrftoken = $("meta[name=csrf-token]").attr("content");
+
+            var cname = $('#cname').val()
+            var uname = $('#uname').val()
+            var create_time = $('#create_time').val()
+            var th = '<tr>' + $('#info').children()[0].children[0].innerHTML + '</tr>'
+            $.ajax({
+                url: '/search_qd/',
+                method: 'POST',
+                data: {'cname': cname, 'uname': uname, 'create_time': create_time},
+                headers: {"X-CSRFToken": csrftoken},
+                success: function (e) {
+                    var str = ''
+                    for (var i = 0; i < e['data'].length; i++) {
+                        var qd = e['data'][i]
+                        str += '<tr><td>' + i + '</td><td>' + qd['cname'] + '</td><td>' + qd['uname'] + '</td><td>' + qd['stage'] + '</td><td>' + qd['progress'] + '</td><td>' + qd['code_num'] + '</td><td>' + qd['bug_num'] + '</td><td>' + qd['create_time'] + '</td><td>' + qd['remarks'] + '</td></tr>'
+                    }
+
+                    $('#info tr').remove()
+                    console.log(th + str)
+                    $('#info').append(th + str)
+                    {#$('#info').append(str)#}
+
+
+                }
+            })
+        }
+
+        function reset() {
+            $('#cname').val('')
+            $('#uname').val('')
+            $('#create_time').val('')
+        }
+
+
+    </script>
+{% endblock %}

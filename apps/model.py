@@ -20,7 +20,8 @@ class User(db.Model):
     _passwd = db.Column(db.String(100))
     sex = db.Column(db.String(1))
     phone = db.Column(db.String(15))
-    clazzs = db.relationship('Clazz', backref='users',secondary=user_clazz)
+    rid = db.Column(db.Integer)
+    clazzs = db.relationship('Clazz', backref='users', secondary=user_clazz)
 
     def __init__(self, name, password, nick_name, sex=None, phone=None, cid=None):
         self.uname = name
@@ -54,7 +55,10 @@ class Clazz(db.Model):
 class Qd(db.Model):
     __tablename__ = 't_qd'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    uid = db.Column(db.INTEGER)
+    uid = db.Column(db.INTEGER, db.ForeignKey('t_user.id'))
+    cid = db.Column(db.INTEGER,db.ForeignKey('t_class.id'))
+    user = db.relationship('User')
+    clazz = db.relationship('Clazz')
     stage = db.Column(db.String(32))  # 阶段
     progress = db.Column(db.String(32))  # 进度
     code_num = db.Column(db.INTEGER)  # 代码数

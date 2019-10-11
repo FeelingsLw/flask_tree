@@ -11,7 +11,7 @@ SQLALCHEMY_DATABASE_URI = "{}+{}://{}:{}@{}:{}/{}?charset=utf8mb4".format(DIALEC
                                                                           PORT,
                                                                           DATABASE)
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+JSON_AS_ASCII= False
 import os
 
 SECRET_KEY = os.urandom(16)

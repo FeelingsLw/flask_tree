@@ -12,7 +12,6 @@ from apps.decorators import login_required
 def index():
     return render_template('home.html')
 
-
 @user.route('/login/', methods=['GET', 'POST'])
 def login():
     if 'GET' == request.method:
