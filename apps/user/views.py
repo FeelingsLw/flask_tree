@@ -12,6 +12,7 @@ from apps.decorators import login_required
 def index():
     return render_template('home.html')
 
+
 @user.route('/login/', methods=['GET', 'POST'])
 def login():
     if 'GET' == request.method:
@@ -69,6 +70,7 @@ class RegisterView(MethodView):
 
 class PersonalView(MethodView):
     decorators = [login_required]
+
     def get(self):
         clazz = Clazz.query.all()
         user = User.query.filter_by(id=session['uid']).first()
@@ -89,6 +91,13 @@ class PersonalView(MethodView):
             user.cid = cid
             db.session.commit()
         return redirect(url_for('user.personal'))
+
+
+@user.route('/get_user/')
+def get_user():
+    users = User.query.all()
+    clazzs = Clazz.query.all()
+    return render_template('user/manager.html', users=users, clazzs=clazzs)
 
 
 # 通过add_url_rule添加类视图和url的映射，并且在as_view方法中指定该url的名称，方便url_for函数调用

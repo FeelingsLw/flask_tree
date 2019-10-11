@@ -14,19 +14,34 @@
             <tr>
                 <td >编号</td>
                 <td>班级</td>
-                <td >姓名</td>
+                <td>姓名</td>
                 <td>性别</td>
                 <td>角色</td>
+                <td>密码</td>
                 <td>操作</td>
             </tr>
+
             {% for u in users %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ u.clazz.name }}</td>
-                    <td>{{ u.nick_name }}</td>
-                    <td>{{ u.sex }}</td>
-                    <td>{{ u.rid }}</td>
-                    <td><span class="label label-primary">密码重置</span><span class="label label-primary">设为管理</span><span class="label label-primary">设为用户</span></td>
+                    <td>
+                        <select class="form-control">
+                        {% for c in clazzs %}
+                            <option value="{{ c.id }}"  {% if u.clazzs[0].id == c.id %}selected{% endif %} >{{ c.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
+                    <td><input class="form-control" value="{{ u.nick_name }}"></td>
+                    <td><select class="form-control">
+                        <option value="0" {% if u.sex == '0' %}selected{% endif %}>男</option>
+                        <option value="1" {% if u.sex == '1' %}selected{% endif %}>女</option>
+                    </select></td>
+                    <td><select class="form-control">
+                        <option value="0" {% if u.rid == 0 %}selected{% endif %}>管理员</option>
+                        <option value="1" {% if u.rid == 1 %}selected{% endif %}>普通用户</option>
+                    </select></td>
+                    <td><button class="btn btn-danger">密码重置</button></td>
+                    <td><button class="btn btn-info">保 存</button></td>
                 </tr>
             {% endfor %}
         </table>
