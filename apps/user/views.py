@@ -94,10 +94,11 @@ class PersonalView(MethodView):
 
 
 @user.route('/get_user/')
-def get_user():
-    users = User.query.all()
+@user.route('/get_user/<int:page>')
+def get_user(page=1):
+    pager = User.query.paginate(page,2)
     clazzs = Clazz.query.all()
-    return render_template('user/manager.html', users=users, clazzs=clazzs)
+    return render_template('user/manager.html', pager=pager, clazzs=clazzs)
 
 
 # 通过add_url_rule添加类视图和url的映射，并且在as_view方法中指定该url的名称，方便url_for函数调用
