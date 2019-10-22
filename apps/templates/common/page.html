@@ -4,7 +4,7 @@
     <li><a href="{{ url_for(url, page=1) }}">首页</a></li>
 
     {% if data.has_prev %}
-    <li class="active"><a href="{{ url_for(url, page=data.prev_num) }}">上一页</a></li>
+    <li><a class="list-group-item active" href="{{ url_for(url, page=data.prev_num) }}">上一页</a></li>
     {% else %}
     <li class="disabled"><a href="#">上一页</a></li>
     {% endif %}

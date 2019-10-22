@@ -1,11 +1,11 @@
-from . import qd
+from apps.qd import qd
 from flask.views import MethodView
 from flask import render_template, redirect, url_for, session, request, jsonify
 from apps.model import Qd, User, Clazz
 import datetime
-from .forms import QdForm
+from apps.qd.forms import QdForm
 from apps.model import db
-from sqlalchemy import desc
+from sqlalchemy import desc,text
 from apps.decorators import login_required
 
 
@@ -43,6 +43,8 @@ def search_qd():
     uname = request.form.get('uname')
     time = request.form.get('create_time')
     qds = Qd.query
+
+    User.query.from_statement(text('select * from t_user')).all()
     if time:
         qds= qds.filter_by(create_time=time)
     if uname:

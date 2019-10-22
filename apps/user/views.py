@@ -1,7 +1,7 @@
 import functools
 
 from apps.user import user
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session,flash
 from apps.model import User, db, Clazz
 from flask.views import MethodView
 from apps.decorators import login_required
@@ -31,8 +31,10 @@ def login():
                 session['sex'] = user.sex
                 return redirect(url_for('user.index'))
             else:
+                flash('密码错误')
                 return render_template('login.html', msg='密码错误')
         else:
+            flash('用户名不存在！')
             return render_template('login.html', msg='用户名不存在')
 
 
@@ -100,6 +102,15 @@ def get_user(page=1):
     clazzs = Clazz.query.all()
     return render_template('user/manager.html', pager=pager, clazzs=clazzs)
 
+@user.route('/reset_pwd/<int:uid>/')
+def reset_pwd(uid=None):
+    if uid:
+        user =User.query.filter_by(id=uid).first()
+        if user:
+            user.passwd='123'
+            db.session.add(user)
+            db.session.commit()
+    return redirect(url_for('user.get_user'))
 
 # 通过add_url_rule添加类视图和url的映射，并且在as_view方法中指定该url的名称，方便url_for函数调用
 user.add_url_rule('/register/', view_func=RegisterView.as_view('register'))

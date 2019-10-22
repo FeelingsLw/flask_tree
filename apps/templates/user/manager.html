@@ -41,7 +41,7 @@
                         <option value="0" {% if u.rid == 0 %}selected{% endif %}>管理员</option>
                         <option value="1" {% if u.rid == 1 %}selected{% endif %}>普通用户</option>
                     </select></td>
-                    <td><button class="btn btn-danger">密码重置</button></td>
+                    <td><a class="btn btn-danger" href="{{ url_for('user.reset_pwd',uid=u.id) }}">密码重置</a></td>
                     <td><button class="btn btn-info">保 存</button></td>
                 </tr>
             {% endfor %}
