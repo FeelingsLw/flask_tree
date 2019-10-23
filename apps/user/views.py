@@ -1,7 +1,7 @@
 import functools
 
 from apps.user import user
-from flask import render_template, request, redirect, url_for, session,flash
+from flask import render_template, request, redirect, url_for, session,flash,jsonify
 from apps.model import User, db, Clazz
 from flask.views import MethodView
 from apps.decorators import login_required
@@ -108,9 +108,21 @@ def reset_pwd(uid=None):
         user =User.query.filter_by(id=uid).first()
         if user:
             user.passwd='123'
-            db.session.add(user)
             db.session.commit()
     return redirect(url_for('user.get_user'))
+
+@user.route('/change_user/',methods=['GET','POST'])
+def change_user():
+    data = request.form
+    user = User.query.filter_by(id = data.get('uid')).first()
+    user.rid = data.get('rid')
+    user.nick_name = data.get('nick_name')
+    user.sex = data.get('sex')
+    user.clazzs = Clazz.query.filter_by(id = data.get('cid')).all()
+ 
+    db.session.commit()
+    return jsonify({'status':'1','msg':'更新成功！'})
+    
 
 # 通过add_url_rule添加类视图和url的映射，并且在as_view方法中指定该url的名称，方便url_for函数调用
 user.add_url_rule('/register/', view_func=RegisterView.as_view('register'))

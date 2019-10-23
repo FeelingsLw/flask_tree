@@ -3,17 +3,20 @@
 {% block title %}
     用户管理
 {% endblock %}
+{% block head %}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
 {% block panel_title %}
     用户管理
 {% endblock %}
 {% block info %}
     <div class="content-row">
         <button type="button" class="btn btn-info btn-block" data-toggle="tooltip" data-placement="top" title=""
-                data-original-title="Tooltip on top">今日签到
+                data-original-title="Tooltip on top">用户信息
         </button>
         <table class="table table-bordered">
             <tr>
-                <td >编号</td>
+                <td>编号</td>
                 <td>班级</td>
                 <td>姓名</td>
                 <td>性别</td>
@@ -23,30 +26,64 @@
             </tr>
 
             {% for u in pager.items %}
+                <form id='form{{loop.index}}'>
                 <tr>
                     <td>{{ loop.index }}</td>
+                    
                     <td>
-                        <select class="form-control">
+                        <input name='uid' type="hidden" value='{{ u.id }}'/>
+                        <select name="cid" class="form-control">
                         {% for c in clazzs %}
                             <option value="{{ c.id }}"  {% if u.clazzs[0].id == c.id %}selected{% endif %} >{{ c.name }}</option>
                         {% endfor %}
                         </select>
                     </td>
-                    <td><input class="form-control" value="{{ u.nick_name }}"></td>
-                    <td><select class="form-control">
+                    <td><input name="nick_name" class="form-control" value="{{ u.nick_name }}"></td>
+                    <td><select name="sex" class="form-control">
                         <option value="0" {% if u.sex == '0' %}selected{% endif %}>男</option>
                         <option value="1" {% if u.sex == '1' %}selected{% endif %}>女</option>
                     </select></td>
-                    <td><select class="form-control">
+                    <td><select name="rid" class="form-control">
                         <option value="0" {% if u.rid == 0 %}selected{% endif %}>管理员</option>
                         <option value="1" {% if u.rid == 1 %}selected{% endif %}>普通用户</option>
                     </select></td>
                     <td><a class="btn btn-danger" href="{{ url_for('user.reset_pwd',uid=u.id) }}">密码重置</a></td>
-                    <td><button class="btn btn-info">保 存</button></td>
+                    <td><a class="btn btn-info" id='{{ loop.index}}' onclick="do_change(this)" href="javascript:void(0)">保 存</a></td>
                 </tr>
+            </form>
             {% endfor %}
         </table>
         {{ pg.pager(pager, 'user.get_user') }}
     </div>
+<div id="mo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
 
+    <div class="alert alert-info alert-dismissable">       
+            <strong id='msg'>ceshi</strong> 
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function do_change(btn){
+        var csrftoken = $("meta[name=csrf-token]").attr("content");
+        index = btn.id
+        data = $('#form'+index).serializeArray()
+        $.ajax({
+            url:'/change_user/',
+            data:data,
+            method: 'POST',
+            headers: {"X-CSRFToken": csrftoken},
+            success:function(e){
+                if(e.status == 1){
+                    $('#msg').text(e.msg)
+                    $('#mo').modal('show')
+                }
+            }
+        })
+    }
+
+</script>
 {% endblock %}
