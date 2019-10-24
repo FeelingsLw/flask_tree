@@ -1,7 +1,7 @@
 import functools
 
 from apps.user import user
-from flask import render_template, request, redirect, url_for, session,flash,jsonify
+from flask import render_template, request, redirect, url_for, session,flash,jsonify,current_app
 from apps.model import User, db, Clazz
 from flask.views import MethodView
 from apps.decorators import login_required
@@ -20,11 +20,11 @@ def login():
     else:
         uname = request.form['uname']
         passwd = request.form['passwd']
-
+        current_app.logger.info('{}：在尝试登录'.format(uname))
         user = User.query.filter_by(uname=uname).first()
         if user:
             if user.check_password(passwd):
-
+                current_app.logger.info('{}：登录成功了'.format(uname))
                 session['uid'] = user.id
                 session['uname'] = user.uname
                 session['nick'] = user.nick_name

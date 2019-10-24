@@ -39,7 +39,6 @@
                 </tr>
             {% else %}
                 <form action="/qd/" method="post" >
-{#                {{ form.csrf_token }}#}
                     <tr>
                         <td class="col-sm-1">1        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /></td>
                         <td ><input class="form-control" type="text" value="{{ user.clazzs[0].name }}" readonly></td>

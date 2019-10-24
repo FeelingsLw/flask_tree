@@ -56,9 +56,7 @@ class Qd(db.Model):
     __tablename__ = 't_qd'
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     uid = db.Column(db.INTEGER, db.ForeignKey('t_user.id'))
-    cid = db.Column(db.INTEGER,db.ForeignKey('t_class.id'))
     user = db.relationship('User')
-    clazz = db.relationship('Clazz')
     stage = db.Column(db.String(32))  # 阶段
     progress = db.Column(db.String(32))  # 进度
     code_num = db.Column(db.INTEGER)  # 代码数

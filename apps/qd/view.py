@@ -42,24 +42,28 @@ def search_qd():
     cname = request.form.get('cname')
     uname = request.form.get('uname')
     time = request.form.get('create_time')
-    qds = Qd.query
+    search = Qd.query.join(User).join(User.clazzs)
 
     User.query.from_statement(text('select * from t_user')).all()
     if time:
-        qds= qds.filter_by(create_time=time)
+        search= search.filter(Qd.create_time==time)
     if uname:
-        qds = qds.join(User).filter_by(nick_name=uname)
+        search = search.filter(User.nick_name==uname)
     if cname:
-        qds = qds.join(Clazz).filter_by(name=cname)
-    data = qds.order_by(desc('create_time')).all()
+        search = search.filter(Clazz.name == cname)
+    data = search.order_by(Qd.create_time.desc()).all()
     datas = []
     for d in data:
+        cname = d.user.clazzs[0].name if len(d.user.clazzs)>0 else 'No Class'
+        cid = d.user.clazzs[0].id if len(d.user.clazzs)>0 else 'No Class'
+        uname = d.user.nick_name
+        uid  = d.uid
         datas.append({
             'id': d.id,
-            'uid': d.uid,
-            'uname': d.user.nick_name,
-            'cid': d.cid,
-            'cname': d.clazz.name,
+            'uid': uid,
+            'uname': uname,
+            'cid': cid,
+            'cname': cname,
             'stage': d.stage,
             'progress': d.progress,
             'code_num':d.code_num,

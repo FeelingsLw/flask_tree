@@ -42,7 +42,9 @@
                         <li class="list-group-item"><i class="glyphicon glyphicon-align-justify"></i> <b>功能菜单</b></li>
                     <li class="list-group-item"><input type="text" class="form-control search-query"
                                                        placeholder="Search Something"></li>
-                    <li class="list-group-item"><a href="{{ url_for('user.personal') }}"><i class="glyphicon glyphicon-home"></i>个人主页
+                    <li class="list-group-item"><a href="{{ url_for('user.index') }}"><i class="glyphicon glyphicon-home"></i>个人主页
+                    </a></li>
+                    <li class="list-group-item"><a href="{{ url_for('user.personal') }}"><i class="glyphicon glyphicon-user"></i>个人信息
                     </a></li>
                        <li class="list-group-item"><a href="{{ url_for('qd.qd') }}"><i class="glyphicon glyphicon-bell"></i>个人签到</a>
                     <li class="list-group-item"><a href="{{ url_for('user.get_user')}}"><i class="glyphicon glyphicon-certificate"></i>用户管理
