@@ -77,15 +77,13 @@
                 method: 'POST',
                 headers: {"X-CSRFToken": csrftoken},
                 success: function (e) {
-                    var str = ''
                     for (var i = 0; i < e['data'].length; i++) {
-
                         var qd = e['data'][i]
-                        str += '<tr><td>' + i + '</td><td>' + qd['cname'] + '</td><td>' + qd['uname'] + '</td><td>' + qd['stage'] + '</td><td>' + qd['progress'] + '</td><td>' + qd['code_num'] + '</td><td>' + qd['bug_num'] + '</td><td>' + qd['create_time'] + '</td><td>' + qd['remarks'] + '</td></tr>'
-
+                        info = '<tr><td>' + i + '</td><td>' + qd['cname'] + '</td><td>' + qd['uname'] + '</td><td>' + qd['stage'] + '</td><td>' + qd['progress'] + '</td><td>' + qd['code_num'] + '</td><td>' + qd['bug_num'] + '</td><td>' + qd['create_time'] + '</td><td>' + qd['remarks'] + '</td></tr>'
+                        $("table").append(info)
                     }
 
-                    $("#info").append(str)
+                    
                 }
             })
         }
