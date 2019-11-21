@@ -35,6 +35,13 @@ class QdView(MethodView):
             db.session.add(qd)
             db.session.commit()
         return redirect(url_for('qd.qd'))
+class Charts(MethodView):
+    def get(self):
+        return render_template('data_analysis/index.html')
+    def post(self):
+        pass
+
+
 
 
 @qd.route('/search_qd/',methods=['POST'])
@@ -75,3 +82,8 @@ def search_qd():
 
 
 qd.add_url_rule('/qd/', view_func=QdView.as_view('qd'))
+qd.add_url_rule('/charts/', view_func=Charts.as_view('charts'))
+
+
+
+
