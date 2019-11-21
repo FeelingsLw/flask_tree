@@ -39,7 +39,24 @@ class Charts(MethodView):
     def get(self):
         return render_template('data_analysis/index.html')
     def post(self):
-        pass
+        # 记录所有学生签到信息的集合
+        all_code=[]
+        # 获取所有学生
+        users = User.query.filter_by(rid =1).all()
+        data =[]
+        us =[]
+        for u in users:
+            us.append(u.nick_name)
+            # 通过学生获取代码信息
+            qds = Qd.query.filter_by(uid=u.id)
+            all_code.append([qd.code_num for qd in qds])
+            data = [qd.create_time for qd in qds]
+
+        return jsonify({
+            'user':us,
+            'data':data,
+            'code_num':all_code
+        })
 
 
 
