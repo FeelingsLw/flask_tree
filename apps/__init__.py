@@ -36,6 +36,12 @@ dictConfig({
 })
 
 from apps import filter
+from flask_restful import Api
+
+api = Api(app)
+from apps.clazz import clazz
+app.register_blueprint(clazz)
+
 
 
 
