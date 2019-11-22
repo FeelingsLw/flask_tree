@@ -43,14 +43,33 @@ class Charts(MethodView):
         all_code=[]
         # 获取所有学生
         users = User.query.filter_by(rid =1).all()
-        data =[]
+        #data =[]
         us =[]
+        data = [d[0] for d in db.session.execute('select create_time FROM t_qd GROUP BY create_time ORDER BY create_time').cursor._rows]
+        sql ='''
+        SELECT 
+            IFNULL(q2.code_num,0) as code_num
+            FROM
+                (SELECT create_time 
+                FROM t_qd 
+                GROUP BY create_time 
+                ORDER BY create_time
+                )q1
+            
+            left JOIN (select * from t_qd where uid ={} )  q2
+            on q2.create_time = q1.create_time
+
+        '''
+    
         for u in users:
             us.append(u.nick_name)
             # 通过学生获取代码信息
-            qds = Qd.query.filter_by(uid=u.id)
-            all_code.append([qd.code_num for qd in qds])
-            data = [qd.create_time for qd in qds]
+            #qds = Qd.query.filter_by(uid=u.id)
+            #all_code.append([qd.code_num for qd in qds])
+            # data = [qd.create_time for qd in qds]
+            
+            code_nums =[c[0] if c[0] else 0 for c in db.session.execute(sql.format(u.id)).cursor._rows]
+            all_code.append(code_nums)
 
         return jsonify({
             'user':us,
